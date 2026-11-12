@@ -65,3 +65,7 @@ The first command produces the partition and the shared checkpoint. The second f
 | Prior-initialized adaptations | `prior_residual_pilot_v1/` and `dp_class_scale_confirm_v1/` |
 
 These paths are under `experiments/`; `unified_v2/` is under `followup_20261104/`. Partition and initialization seeds are fixed. Fresh runs generate fresh private updates and histograms. The CSV archive preserves the values used for the paper. The per-branch budget covers one fixed deployment protocol. The clipping and training diagnostics use public benchmark records.
+
+## Recreate the manuscript figures
+
+Install Matplotlib 3.9.2, then run `python redraw_figures.py` from the repository root. This reads the archived CSVs and writes three vector PDFs under `figures/`. Font size is set for a final figure width of 119 mm.
