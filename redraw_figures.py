@@ -6,7 +6,6 @@ import statistics
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 from matplotlib.ticker import MaxNLocator, NullLocator
 
 ROOT = Path(__file__).resolve().parent
@@ -36,62 +35,6 @@ def records(name):
 def save(fig, name):
     fig.savefig(OUT / name, metadata={"Creator": "Matplotlib 3.9.2"}, facecolor="white")
     plt.close(fig)
-
-
-def framework():
-    fig = plt.figure(figsize=(4.69, 6.2))
-    ax = fig.add_axes([0, 0, 1, 1])
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.axis("off")
-
-    def box(x, y, w, h, text, color="#EDF3F7"):
-        ax.add_patch(FancyBboxPatch(
-            (x, y), w, h, boxstyle="round,pad=0.005,rounding_size=0.012",
-            linewidth=0.7, edgecolor="#34495E", facecolor=color,
-        ))
-        ax.text(x+w/2, y+h/2, text, ha="center", va="center", fontsize=8)
-
-    def arrow(a, b, dashed=False):
-        ax.add_patch(FancyArrowPatch(
-            a, b, arrowstyle="-|>", mutation_scale=7, linewidth=0.7,
-            linestyle="--" if dashed else "-", color="#263238",
-        ))
-
-    ax.text(.03, .97, "(a) Shared training", weight="bold", va="top")
-    box(.18, .865, .64, .065, "Shared model\nfeature extractor + affine head")
-    arrow((.5, .865), (.5, .835))
-    ax.text(.52, .851, "Broadcast to 20 clients", va="center")
-    box(.18, .725, .64, .11, "Each client takes 10 local DP-SGD steps\n"
-        "Per-record clipping (C = 1)\nGaussian noise + SGD update")
-    arrow((.5, .725), (.5, .685))
-    ax.text(.52, .705, "Upload full model", va="center")
-    box(.18, .62, .64, .065, "Server averages 20 returned models")
-    arrow((.18, .652), (.08, .652))
-    ax.plot([.08, .08], [.652, .898], color="#263238", linewidth=.7)
-    arrow((.08, .898), (.18, .898))
-    ax.text(.09, .77, "30 rounds", rotation=90, va="center")
-    box(.04, .525, .92, .055, r"Joint record-level budget: $\epsilon=4$ or $8$, $\delta=10^{-5}$", "#F2F2F2")
-    ax.text(.03, .49, "(b) Local personalization", weight="bold", va="top")
-    box(.05, .38, .4, .065, "Frozen shared predictor\nscores z(x)")
-    arrow((.45, .412), (.55, .412))
-    box(.55, .38, .4, .065, "Add client offset d\nsoftmax(z(x) + d)")
-    arrow((.75, .38), (.75, .337))
-    ax.text(.57, .354, "Local labels", ha="right", va="center")
-    arrow((.59, .354), (.71, .323))
-    box(.55, .255, .4, .08, "Cross-entropy\ngradient w.r.t. d")
-    arrow((.55, .295), (.45, .295))
-    box(.05, .255, .4, .08, "Per-record clipping\nC = 1 or 2")
-    arrow((.25, .255), (.25, .205))
-    box(.05, .125, .4, .08, "Gaussian noise\nSGD update")
-    arrow((.45, .165), (.55, .165))
-    box(.55, .125, .4, .08, "Updated local offset\n10 trainable values")
-    arrow((.97, .166), (.97, .411), dashed=True)
-    arrow((.95, .166), (.97, .166), dashed=True)
-    arrow((.97, .411), (.95, .411), dashed=True)
-    ax.text(.5, .072, "50 local steps; initialize d = 0", ha="center")
-    ax.text(.5, .035, "Merge the offset into the shared intercept for inference", ha="center")
-    save(fig, "Fig1.pdf")
 
 
 def clipping():
@@ -160,6 +103,5 @@ def noise():
     save(fig, "Fig3.pdf")
 
 
-framework()
 clipping()
 noise()

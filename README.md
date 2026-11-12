@@ -68,4 +68,6 @@ These paths are under `experiments/`; `unified_v2/` is under `followup_20261104/
 
 ## Recreate the manuscript figures
 
-Install Matplotlib 3.9.2, then run `python redraw_figures.py` from the repository root. This reads the archived CSVs and writes three vector PDFs under `figures/`. Font size is set for a final figure width of 119 mm.
+Install Matplotlib 3.9.2, then run `python redraw_figures.py` from the repository root. This reads the archived CSVs and writes the vector PDFs for Figures 2 and 3 under `figures/`. Font size is set for a final figure width of 119 mm.
+
+Figure 1 uses the original PowerPoint architecture diagram supplied in the manuscript source package.
