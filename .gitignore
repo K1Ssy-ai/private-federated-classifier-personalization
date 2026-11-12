@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pt
+*.pth
+*.log
+*.npz
+*.gz
+*.zip
+.venv/
+data/
+local_rng_state.json
+experiments/**/*.json
+experiments/**/*.csv
+experiments/**/*.flag
